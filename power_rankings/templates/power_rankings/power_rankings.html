@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+th, td {
+  padding: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  text-align: center;
+  font-family: Arial, Arial, sans-serif;
+}
+th {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+}
+.powerRanking tr:nth-child(even) {background-color: #f2f2f2;}
+.team-info tr:nth-child(even) {background-color:rgba(0, 0, 0, 0)};
+.triangle-up {
+	width: 0;
+	height: 0;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-bottom: 50px solid #555;
+	border-color: green transparent;
+}
+.triangle-down {
+	width: 0;
+	height: 0;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-bottom: 50px solid #555;
+	border-color: red transparent;
+}
+.arrow {
+  border: solid black;
+  border-width: 0 5px 5px 0;
+  display: inline-block;
+  padding: 3px;
+}
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  border-color: green;
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  border-color: red;
+}
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Power Rankings</title>
+</head>
+<body>
+<table class="powerRanking">
+    <thead><tr><th colspan="6" style="font-size:42px;">Village People Power Rankings</th></tr>
+    <tr><th colspan="6" style="font-size:24px;">Week {{week}}</th></tr>
+    <tr><th>Rank</th><th colspan="2">Team</th><th>Trend</th><th>This Week</th><th>Comments</th></tr>
+    </thead>
+<tbody>
+    {% for team in teams %}
+        <tr>
+            <th style="font-size:24px;">{{team.rank}}</th>
+            <td><img src="{{team.logo}}" alt="" border=3 height=75 width=75 id="teamPicture"></img></td>
+            <td>
+                <table class="team-info" style="margin:auto;">
+                    <tr id="team-name" style="font-weight:bold;"><td>{{team.name}}</td></tr>
+                    <tr id="team-record"><td>{{team.record}}</td></tr>
+                </table>
+            </td>
+            <td><table class="team-info" style="margin:auto;">
+                {% if not team.prev_rank or team.prev_rank == team.rank or week == 0 %}
+                    <tr style="font-size:42px;"><td>-</td></tr>
+                {% elif team.prev_rank < team.rank %}
+                    <tr><td><i class="arrow down"></i></td></tr>
+                {% else %}
+                    <tr><td><i class="arrow up"></i></td></tr>
+                {% endif %}
+                {% if week == 0 %}
+                    <tr id="prev_rank" style="font-size:11px;"><td>Last Week: - </td></tr>
+                {% else %}
+                    <tr id="prev_rank" style="font-size:11px;"><td>Last Week: {{team.prev_rank}}</td></tr>
+                {% endif %}
+            </table></td>
+            <td style="width:120px; font-size:14px">{{team.box_score}}</td>
+            <td style="width:300px;">{{team.comments}}</td>
+        </tr>
+    {% endfor %}
+</tbody>
+</table>
+</body>
+</html>
