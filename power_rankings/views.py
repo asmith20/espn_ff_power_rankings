@@ -47,7 +47,7 @@ def get_score(team_id, teams, scores, week):
 
 
 def create_power_rankings(request):
-    week0 = datetime(2021,9,7)
+    week0 = datetime(datetime.now().year,9,8) # first day of the season
     week = int(np.floor((datetime.now() - week0).days/7))
     if week < 0:
         week = 0
@@ -68,7 +68,9 @@ def create_power_rankings(request):
             teams = Team.objects.order_by('rank')
             return render(request, 'power_rankings/power_rankings.html', {'teams':teams, 'week':week})
     else:
-        #Team.objects.all().delete()
+        if week == 0:
+            # clear out db for new season
+            Team.objects.all().delete()
         yr = datetime.now().year
         url = f"https://fantasy.espn.com/apis/v3/games/ffl/seasons/{yr}/segments/0/leagues/86125"
         raw = requests.get(url, params={"view": "mBoxscore"},
