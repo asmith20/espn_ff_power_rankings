@@ -14,4 +14,4 @@ Basic site to pull your league info and create a form to create weekly power ran
 - make form look nicer
 
 ## Example
-[image](https://i.imgur.com/CbN9hQv.png)
+![image](https://i.imgur.com/CbN9hQv.png)
